@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f7fb">
+<title>日語動詞變化練習</title>
+
+<!--
+  這版從零重寫。
+  全站只使用「Noto Sans JP」作為主字型，中文與日文不再各自指定字型。
+  線上開啟時會由 Google Fonts 載入；若無網路，則退回同系列/系統 CJK 字型。
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+ :root{
+  --bg:#fff3e1;
+  --card:#fffdf9;
+  --text:#2d2a26;
+  --muted:#7f7468;
+  --line:#eadfce;
+  --primary:#c96f52;
+  --primary-dark:#ad5940;
+  --soft:#f6eadc;
+  --success-bg:#edf4e8;
+  --success-line:#c7dcbf;
+  --success-text:#4f6e48;
+  --error-bg:#fbeceb;
+  --error-line:#e7c1bd;
+  --error-text:#9d554d;
+  --danger:#a65a50;
+  --danger-bg:#f8e8e5;
+  --accent:#7a8f9e;
+  --accent-soft:#edf1f3;
+  --radius:16px;
+}
+
+/* 唯一主要字體 */
+html,body,button,input{
+  font-family:"Noto Sans JP","Noto Sans CJK JP","Noto Sans CJK TC","Yu Gothic","Microsoft JhengHei",sans-serif;
+}
+
+*{box-sizing:border-box}
+
+html{
+  -webkit-text-size-adjust:100%;
+  text-size-adjust:100%;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-weight:500;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+button,input{
+  -webkit-appearance:none;
+  appearance:none;
+}
+
+button{
+  touch-action:manipulation;
+}
+
+.app{
+  width:min(900px,100%);
+  margin:0 auto;
+  padding:28px 18px 48px;
+}
+
+.header{
+  margin-bottom:20px;
+}
+
+.title{
+  margin:0;
+  font-size:32px;
+  line-height:1.25;
+  font-weight:900;
+  letter-spacing:-.02em;
+}
+
+.subtitle{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:15px;
+  font-weight:500;
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:0 10px 30px rgba(34,46,74,.06);
+  padding:24px;
+}
+
+.card + .card{
+  margin-top:16px;
+}
+
+.section-title{
+  margin:0 0 12px;
+  font-size:19px;
+  font-weight:800;
+}
+
+.setting-block + .setting-block{
+  margin-top:23px;
+}
+
+.option-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
+
+.option{
+  position:relative;
+  display:flex;
+  align-items:center;
+  min-height:48px;
+  padding:10px 13px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fff;
+  cursor:pointer;
+  font-size:15px;
+  font-weight:600;
+  transition:border-color .15s,background .15s,box-shadow .15s;
+}
+
+.option:hover{
+  border-color:#aeb8ca;
+}
+
+.option input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.option:has(input:checked){
+  border-color:var(--primary);
+  background:#fff0e6;
+  box-shadow:0 0 0 1px rgba(53,105,232,.08);
+}
+
+.option::before{
+  content:"";
+  width:17px;
+  height:17px;
+  flex:0 0 17px;
+  margin-right:9px;
+  border:1.7px solid #aeb7c7;
+  border-radius:50%;
+  background:#fff;
+}
+
+.option:has(input[type="checkbox"])::before{
+  border-radius:5px;
+}
+
+.option:has(input:checked)::before{
+  border-color:var(--primary);
+  background:var(--primary);
+  box-shadow:inset 0 0 0 4px #fff;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:24px;
+}
+
+.btn{
+  border:0;
+  min-height:48px;
+  padding:11px 18px;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:800;
+  cursor:pointer;
+  background:var(--primary);
+  color:#fff;
+  font-family:inherit;
+}
+
+.btn:hover{background:var(--primary-dark)}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn.secondary{
+  background:var(--soft);
+  color:#2e394d;
+}
+.btn.secondary:hover{background:#e5eaf5}
+.btn.danger{
+  background:#fff1ef;
+  color:var(--danger);
+}
+.btn.danger:hover{background:#ffe6e2}
+
+.note{
+  margin:14px 0 0;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:500;
+}
+
+.hidden{display:none !important}
+
+.quiz-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  font-size:15px;
+  font-weight:700;
+}
+
+.progress{
+  height:9px;
+  margin:11px 0 28px;
+  border-radius:99px;
+  background:#edf0f5;
+  overflow:hidden;
+}
+
+.progress-bar{
+  width:0;
+  height:100%;
+  background:var(--primary);
+  transition:width .2s ease;
+}
+
+.question{
+  text-align:center;
+  padding:4px 4px 0;
+}
+
+.question-hint{
+  color:var(--muted);
+  font-size:14px;
+  font-weight:500;
+}
+
+.question-verb{
+  margin:14px 0 4px;
+  font-size:44px;
+  line-height:1.3;
+  font-weight:900;
+  letter-spacing:.01em;
+}
+
+.arrow{
+  margin:2px 0;
+  color:#8d96a6;
+  font-size:24px;
+  line-height:1.2;
+}
+
+.question-form{
+  margin-top:3px;
+  font-size:26px;
+  line-height:1.35;
+  font-weight:800;
+}
+
+.answer{
+  display:block;
+  width:min(560px,100%);
+  height:58px;
+  margin:22px auto 0;
+  padding:10px 15px;
+  border:2px solid var(--line);
+  border-radius:13px;
+  outline:none;
+  background:#fff;
+  color:var(--text);
+  text-align:center;
+  font-size:22px;
+  font-weight:600;
+  font-family:inherit;
+}
+
+.answer:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 3px rgba(53,105,232,.1);
+}
+
+.feedback{
+  width:min(650px,100%);
+  margin:18px auto 0;
+  padding:14px 16px;
+  border-radius:13px;
+  text-align:left;
+  font-size:15px;
+  font-weight:500;
+}
+
+.feedback.ok{
+  background:var(--success-bg);
+  border:1px solid var(--success-line);
+}
+
+.feedback.bad{
+  background:var(--error-bg);
+  border:1px solid var(--error-line);
+}
+
+.feedback strong{
+  font-weight:900;
+}
+
+.result-title{
+  margin:0;
+  font-size:22px;
+  font-weight:900;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:20px 0 0;
+}
+
+.stat{
+  padding:16px 10px;
+  border-radius:13px;
+  background:#f7f8fb;
+  text-align:center;
+  font-size:14px;
+  font-weight:600;
+}
+
+.stat-value{
+  display:block;
+  margin-top:3px;
+  font-size:28px;
+  line-height:1.2;
+  font-weight:900;
+}
+
+.wrong-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+
+.wrong-title{
+  margin:0;
+  font-size:21px;
+  font-weight:900;
+}
+
+.table-wrap{
+  width:100%;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  margin-top:14px;
+}
+
+table{
+  width:100%;
+  min-width:620px;
+  border-collapse:collapse;
+  font-size:14px;
+}
+
+th,td{
+  padding:12px 9px;
+  border-bottom:1px solid #edf0f4;
+  text-align:left;
+  vertical-align:top;
+  font-family:inherit;
+  font-weight:500;
+}
+
+th{
+  color:var(--muted);
+  font-weight:700;
+}
+
+.badge{
+  display:inline-block;
+  margin-top:4px;
+  padding:2px 7px;
+  border-radius:999px;
+  background:#eef1f6;
+  color:#697386;
+  font-size:12px;
+  font-weight:600;
+}
+
+.empty{
+  padding:32px 10px 20px;
+  text-align:center;
+  color:var(--muted);
+  font-weight:600;
+}
+
+@media (max-width:700px){
+  .level-head{
+    margin-bottom:8px;
+  }
+  .level-toggle{
+    min-height:38px;
+    padding:7px 6px;
+  }
+
+  .app{
+    width:100%;
+    padding:18px 12px 34px;
+  }
+
+  .header{
+    margin-bottom:14px;
+  }
+
+  .title{
+    font-size:25px;
+  }
+
+  .subtitle{
+    font-size:13px;
+    line-height:1.55;
+  }
+
+  .card{
+    padding:16px;
+    border-radius:14px;
+  }
+
+  .section-title{
+    font-size:18px;
+  }
+
+  .option-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .option{
+    min-height:48px;
+    padding:10px 11px;
+    font-size:14px;
+  }
+
+  .quiz-head{
+    font-size:14px;
+  }
+
+  .question{
+    padding-top:0;
+  }
+
+  .question-verb{
+    margin-top:12px;
+    font-size:36px;
+  }
+
+  .question-form{
+    font-size:22px;
+  }
+
+  .answer{
+    height:55px;
+    margin-top:18px;
+    font-size:21px;
+  }
+
+  .actions{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:9px;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .stats{
+    gap:7px;
+  }
+
+  .stat{
+    padding:13px 5px;
+    font-size:13px;
+  }
+
+  .stat-value{
+    font-size:23px;
+  }
+}
+
+@media (max-width:390px){
+  .option-grid{
+    grid-template-columns:1fr;
+  }
+
+  .question-verb{
+    font-size:32px;
+  }
+
+  .question-form{
+    font-size:20px;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+}
+
+.level-block + .level-block{
+  margin-top:18px;
+}
+
+.level-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:9px;
+}
+
+.level-name{
+  display:inline-flex;
+  align-items:center;
+  min-height:30px;
+  padding:3px 10px;
+  border-radius:999px;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:.02em;
+}
+
+.level-name.n5{
+  background:#f7e7cf;
+  color:#9a5f32;
+}
+
+.level-name.n4{
+  background:#e7edf2;
+  color:#586f7d;
+}
+
+.level-toggle{
+  border:0;
+  background:transparent;
+  color:var(--primary);
+  font-family:inherit;
+  font-size:13px;
+  font-weight:800;
+  padding:5px 4px;
+  cursor:pointer;
+}
+
+.level-toggle:hover{
+  color:var(--primary-dark);
+  text-decoration:underline;
+}
+
+</style>
+</head>
+
+<body>
+<main class="app">
+  <header class="header">
+    <h1 class="title">日語動詞變化練習</h1>
+    <p class="subtitle">綜合練習第一類、第二類與第三類動詞。</p>
+  </header>
+
+  <!-- 設定 -->
+  <section id="setupView" class="card">
+    <div class="setting-block">
+      <h2 class="section-title">起始形式</h2>
+      <div class="option-grid">
+        <label class="option">
+          <input type="radio" name="startForm" value="ます形" checked>
+          <span>ます形</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="startForm" value="辞書形">
+          <span>辭書形</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <h2 class="section-title">變化種類</h2>
+
+      <div class="level-block">
+        <div class="level-head">
+          <span class="level-name n5">N5</span>
+          <button type="button" class="level-toggle" data-level="N5">全選</button>
+        </div>
+        <div id="n5Options" class="option-grid"></div>
+      </div>
+
+      <div class="level-block">
+        <div class="level-head">
+          <span class="level-name n4">N4</span>
+          <button type="button" class="level-toggle" data-level="N4">全選</button>
+        </div>
+        <div id="n4Options" class="option-grid"></div>
+      </div>
+    </div>
+
+    <div class="setting-block">
+      <h2 class="section-title">題數</h2>
+      <div class="option-grid">
+        <label class="option">
+          <input type="radio" name="questionCount" value="10" checked>
+          <span>10 題</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="questionCount" value="20">
+          <span>20 題</span>
+        </label>
+        <label class="option">
+          <input type="radio" name="questionCount" value="30">
+          <span>30 題</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn" id="startBtn">開始練習</button>
+      <button type="button" class="btn secondary" id="wrongBookBtn">📕 錯題本 <span id="wrongCount"></span></button>
+    </div>
+
+    <p class="note">題目會從所有動詞類型中綜合隨機出題。錯題會保存在此瀏覽器。</p>
+  </section>
+
+  <!-- 練習 -->
+  <section id="quizView" class="card hidden">
+    <div class="quiz-head">
+      <span id="questionNo">第 1 / 10 題</span>
+      <span id="currentScore">答對 0 題</span>
+    </div>
+
+    <div class="progress">
+      <div id="progressBar" class="progress-bar"></div>
+    </div>
+
+    <div class="question">
+      <div class="question-hint">請將下列動詞變成指定形式</div>
+      <div id="questionVerb" class="question-verb">書きます</div>
+      <div class="arrow">↓</div>
+      <div id="questionForm" class="question-form">て形</div>
+
+      <input
+        id="answerInput"
+        class="answer"
+        type="text"
+        inputmode="text"
+        autocomplete="off"
+        autocapitalize="none"
+        spellcheck="false"
+        placeholder="請輸入答案"
+      >
+
+      <div class="actions">
+        <button type="button" class="btn" id="checkBtn">確認答案</button>
+        <button type="button" class="btn secondary" id="quitBtn">結束練習</button>
+      </div>
+
+      <div id="feedback" class="feedback hidden"></div>
+    </div>
+  </section>
+
+  <!-- 結果 -->
+  <section id="resultView" class="card hidden">
+    <h2 class="result-title">本次練習完成</h2>
+
+    <div class="stats">
+      <div class="stat">題數<span id="resultTotal" class="stat-value">0</span></div>
+      <div class="stat">答對<span id="resultCorrect" class="stat-value">0</span></div>
+      <div class="stat">正確率<span id="resultRate" class="stat-value">0%</span></div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="btn" id="againBtn">再練習一次</button>
+      <button type="button" class="btn secondary" id="resultWrongBtn">📕 查看錯題本</button>
+      <button type="button" class="btn secondary" id="resultBackBtn">返回設定</button>
+    </div>
+  </section>
+
+  <!-- 錯題本 -->
+  <section id="wrongView" class="card hidden">
+    <div class="wrong-head">
+      <h2 class="wrong-title">📕 錯題本</h2>
+      <button type="button" class="btn secondary" id="wrongBackBtn">返回</button>
+    </div>
+
+    <div id="wrongContent"></div>
+
+    <div class="actions">
+      <button type="button" class="btn" id="practiceWrongBtn">重新練習錯題</button>
+      <button type="button" class="btn danger" id="clearWrongBtn">清空錯題本</button>
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+
+const FORM_GROUPS = {
+  N5: ["ます形","て形","ない形","辞書形","た形"],
+  N4: ["可能形","意向形","条件形","命令形","受身形","使役形","使役受身形"]
+};
+
+const FORMS = [...FORM_GROUPS.N5, ...FORM_GROUPS.N4];
+
+// FORM_GROUPS 使用的是內部 key；FORM_LABELS 只負責畫面顯示文字。
+const FORM_LABELS = {
+  "ます形":"ます形",
+  "て形":"て形",
+  "ない形":"ない形",
+  "辞書形":"辭書形",
+  "た形":"た形",
+  "可能形":"可能形",
+  "意向形":"意向形",
+  "条件形":"條件形",
+  "命令形":"命令形",
+  "受身形":"受身形",
+  "使役形":"使役形",
+  "使役受身形":"使役受身形"
+};
+
+/*
+  使役受身形規則：
+  第一類（五段）中，非「す」結尾的動詞優先採用常用縮約形
+  〜ア段 + される，例如：
+  行く→行かされる、飲む→飲まされる、書く→書かされる。
+  「す」結尾則保留「させられる」：話す→話させられる。
+*/
+const VERBS = [
+  {v:"書く", type:"第一類（五段）", f:{ます形:"書きます",て形:"書いて",ない形:"書かない",辞書形:"書く",た形:"書いた",可能形:"書ける",意向形:"書こう",条件形:"書けば",命令形:"書け",受身形:"書かれる",使役形:"書かせる",使役受身形:"書かされる"}},
+  {v:"飲む", type:"第一類（五段）", f:{ます形:"飲みます",て形:"飲んで",ない形:"飲まない",辞書形:"飲む",た形:"飲んだ",可能形:"飲める",意向形:"飲もう",条件形:"飲めば",命令形:"飲め",受身形:"飲まれる",使役形:"飲ませる",使役受身形:"飲まされる"}},
+  {v:"話す", type:"第一類（五段）", f:{ます形:"話します",て形:"話して",ない形:"話さない",辞書形:"話す",た形:"話した",可能形:"話せる",意向形:"話そう",条件形:"話せば",命令形:"話せ",受身形:"話される",使役形:"話させる",使役受身形:"話させられる"}},
+  {v:"待つ", type:"第一類（五段）", f:{ます形:"待ちます",て形:"待って",ない形:"待たない",辞書形:"待つ",た形:"待った",可能形:"待てる",意向形:"待とう",条件形:"待てば",命令形:"待て",受身形:"待たれる",使役形:"待たせる",使役受身形:"待たされる"}},
+  {v:"買う", type:"第一類（五段）", f:{ます形:"買います",て形:"買って",ない形:"買わない",辞書形:"買う",た形:"買った",可能形:"買える",意向形:"買おう",条件形:"買えば",命令形:"買え",受身形:"買われる",使役形:"買わせる",使役受身形:"買わされる"}},
+  {v:"読む", type:"第一類（五段）", f:{ます形:"読みます",て形:"読んで",ない形:"読まない",辞書形:"読む",た形:"読んだ",可能形:"読める",意向形:"読もう",条件形:"読めば",命令形:"読め",受身形:"読まれる",使役形:"読ませる",使役受身形:"読まされる"}},
+  {v:"行く", type:"第一類（五段）", f:{ます形:"行きます",て形:"行って",ない形:"行かない",辞書形:"行く",た形:"行った",可能形:"行ける",意向形:"行こう",条件形:"行けば",命令形:"行け",受身形:"行かれる",使役形:"行かせる",使役受身形:"行かされる"}},
+  {v:"帰る", type:"第一類（五段）", f:{ます形:"帰ります",て形:"帰って",ない形:"帰らない",辞書形:"帰る",た形:"帰った",可能形:"帰れる",意向形:"帰ろう",条件形:"帰れば",命令形:"帰れ",受身形:"帰られる",使役形:"帰らせる",使役受身形:"帰らされる"}},
+  {v:"遊ぶ", type:"第一類（五段）", f:{ます形:"遊びます",て形:"遊んで",ない形:"遊ばない",辞書形:"遊ぶ",た形:"遊んだ",可能形:"遊べる",意向形:"遊ぼう",条件形:"遊べば",命令形:"遊べ",受身形:"遊ばれる",使役形:"遊ばせる",使役受身形:"遊ばされる"}},
+  {v:"使う", type:"第一類（五段）", f:{ます形:"使います",て形:"使って",ない形:"使わない",辞書形:"使う",た形:"使った",可能形:"使える",意向形:"使おう",条件形:"使えば",命令形:"使え",受身形:"使われる",使役形:"使わせる",使役受身形:"使わされる"}},
+
+  {v:"食べる", type:"第二類（下一段）", f:{ます形:"食べます",て形:"食べて",ない形:"食べない",辞書形:"食べる",た形:"食べた",可能形:"食べられる",意向形:"食べよう",条件形:"食べれば",命令形:"食べろ",受身形:"食べられる",使役形:"食べさせる",使役受身形:"食べさせられる"}},
+  {v:"寝る", type:"第二類（下一段）", f:{ます形:"寝ます",て形:"寝て",ない形:"寝ない",辞書形:"寝る",た形:"寝た",可能形:"寝られる",意向形:"寝よう",条件形:"寝れば",命令形:"寝ろ",受身形:"寝られる",使役形:"寝させる",使役受身形:"寝させられる"}},
+  {v:"教える", type:"第二類（下一段）", f:{ます形:"教えます",て形:"教えて",ない形:"教えない",辞書形:"教える",た形:"教えた",可能形:"教えられる",意向形:"教えよう",条件形:"教えれば",命令形:"教えろ",受身形:"教えられる",使役形:"教えさせる",使役受身形:"教えさせられる"}},
+  {v:"開ける", type:"第二類（下一段）", f:{ます形:"開けます",て形:"開けて",ない形:"開けない",辞書形:"開ける",た形:"開けた",可能形:"開けられる",意向形:"開けよう",条件形:"開ければ",命令形:"開けろ",受身形:"開けられる",使役形:"開けさせる",使役受身形:"開けさせられる"}},
+
+  {v:"見る", type:"第二類（上一段）", f:{ます形:"見ます",て形:"見て",ない形:"見ない",辞書形:"見る",た形:"見た",可能形:"見られる",意向形:"見よう",条件形:"見れば",命令形:"見ろ",受身形:"見られる",使役形:"見させる",使役受身形:"見させられる"}},
+  {v:"起きる", type:"第二類（上一段）", f:{ます形:"起きます",て形:"起きて",ない形:"起きない",辞書形:"起きる",た形:"起きた",可能形:"起きられる",意向形:"起きよう",条件形:"起きれば",命令形:"起きろ",受身形:"起きられる",使役形:"起きさせる",使役受身形:"起きさせられる"}},
+  {v:"借りる", type:"第二類（上一段）", f:{ます形:"借ります",て形:"借りて",ない形:"借りない",辞書形:"借りる",た形:"借りた",可能形:"借りられる",意向形:"借りよう",条件形:"借りれば",命令形:"借りろ",受身形:"借りられる",使役形:"借りさせる",使役受身形:"借りさせられる"}},
+
+  {v:"来る", type:"第三類（カ変）", f:{ます形:"来ます",て形:"来て",ない形:"来ない",辞書形:"来る",た形:"来た",可能形:"来られる",意向形:"来よう",条件形:"来れば",命令形:"来い",受身形:"来られる",使役形:"来させる",使役受身形:"来させられる"}},
+  {v:"する", type:"第三類（サ変）", f:{ます形:"します",て形:"して",ない形:"しない",辞書形:"する",た形:"した",可能形:"できる",意向形:"しよう",条件形:"すれば",命令形:"しろ",受身形:"される",使役形:"させる",使役受身形:"させられる"}},
+  {v:"勉強する", type:"第三類（サ変）", f:{ます形:"勉強します",て形:"勉強して",ない形:"勉強しない",辞書形:"勉強する",た形:"勉強した",可能形:"勉強できる",意向形:"勉強しよう",条件形:"勉強すれば",命令形:"勉強しろ",受身形:"勉強される",使役形:"勉強させる",使役受身形:"勉強させられる"}},
+  {v:"掃除する", type:"第三類（サ変）", f:{ます形:"掃除します",て形:"掃除して",ない形:"掃除しない",辞書形:"掃除する",た形:"掃除した",可能形:"掃除できる",意向形:"掃除しよう",条件形:"掃除すれば",命令形:"掃除しろ",受身形:"掃除される",使役形:"掃除させる",使役受身形:"掃除させられる"}}
+];
+
+const $ = id => document.getElementById(id);
+const setupView = $("setupView");
+const quizView = $("quizView");
+const resultView = $("resultView");
+const wrongView = $("wrongView");
+
+let questions = [];
+let current = 0;
+let correct = 0;
+let answered = false;
+let lastStart = "ます形";
+let lastForms = [];
+let lastCount = 10;
+
+function renderFormOptions(){
+  $("n5Options").innerHTML = FORM_GROUPS.N5.map(form => `
+    <label class="option">
+      <input type="checkbox" name="targetForm" value="${form}" checked>
+      <span>${FORM_LABELS[form]}</span>
+    </label>
+  `).join("");
+
+  $("n4Options").innerHTML = FORM_GROUPS.N4.map(form => `
+    <label class="option">
+      <input type="checkbox" name="targetForm" value="${form}" checked>
+      <span>${FORM_LABELS[form]}</span>
+    </label>
+  `).join("");
+}
+
+function getSelectedForms(){
+  return [...document.querySelectorAll('input[name="targetForm"]:checked')].map(el=>el.value);
+}
+
+function showOnly(view){
+  [setupView,quizView,resultView,wrongView].forEach(v=>v.classList.add("hidden"));
+  view.classList.remove("hidden");
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+function shuffle(list){
+  return list.slice().sort(() => Math.random() - .5);
+}
+
+function startQuiz(customQuestions=null){
+  const start = document.querySelector('input[name="startForm"]:checked').value;
+  const forms = customQuestions ? null : getSelectedForms();
+
+  if(!customQuestions && !forms.length){
+    alert("請至少選擇一個變化種類。");
+    return;
+  }
+
+  if(customQuestions){
+    questions = customQuestions.slice();
+  }else{
+    lastStart = start;
+    lastForms = forms.slice();
+    lastCount = Number(document.querySelector('input[name="questionCount"]:checked').value);
+
+    questions = [];
+    for(let i=0;i<lastCount;i++){
+      const verb = VERBS[Math.floor(Math.random()*VERBS.length)];
+      let target = forms[Math.floor(Math.random()*forms.length)];
+
+      if(forms.length > 1 && target === start){
+        target = forms.find(x => x !== start);
+      }
+
+      questions.push({verb,start,target});
+    }
+  }
+
+  current = 0;
+  correct = 0;
+  answered = false;
+
+  showOnly(quizView);
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const q = questions[current];
+
+  $("questionNo").textContent = `第 ${current+1} / ${questions.length} 題`;
+  $("currentScore").textContent = `答對 ${correct} 題`;
+  $("progressBar").style.width = `${(current / questions.length) * 100}%`;
+
+  const startWord = q.verb.f[q.start] || q.verb.f["辞書形"] || q.verb.v;
+  $("questionVerb").textContent = startWord;
+  $("questionForm").textContent = FORM_LABELS[q.target] || q.target;
+
+  $("answerInput").value = "";
+  $("answerInput").disabled = false;
+  $("checkBtn").disabled = false;
+
+  $("feedback").className = "feedback hidden";
+  $("feedback").innerHTML = "";
+
+  answered = false;
+
+  setTimeout(() => $("answerInput").focus(), 50);
+}
+
+function normalizeAnswer(value){
+  return value.trim().replace(/\s+/g,"");
+}
+
+function checkAnswer(){
+  if(answered) return;
+
+  const q = questions[current];
+  const userAnswer = normalizeAnswer($("answerInput").value);
+  const rightAnswer = q.verb.f[q.target];
+  if(!rightAnswer){
+    alert("這一題的動詞資料不完整，請先返回設定。");
+    return;
+  }
+
+  if(!userAnswer){
+    $("answerInput").focus();
+    return;
+  }
+
+  answered = true;
+  $("answerInput").disabled = true;
+  $("checkBtn").disabled = true;
+
+  if(userAnswer === rightAnswer){
+    correct++;
+    $("feedback").className = "feedback ok";
+    $("feedback").innerHTML =
+      `<strong>✓ 正確！</strong><br>${q.verb.f[q.start]} → <strong>${rightAnswer}</strong>`;
+  }else{
+    $("feedback").className = "feedback bad";
+    $("feedback").innerHTML =
+      `<strong>✗ 答錯了</strong><br>
+       你的答案：${escapeHtml(userAnswer)}<br>
+       正確答案：<strong>${escapeHtml(rightAnswer)}</strong><br>
+       <span>${q.verb.type}</span>`;
+    saveWrong({
+      key: `${q.verb.v}||${q.target}`,
+      verb: q.verb.v,
+      type: q.verb.type,
+      start: q.start,
+      target: q.target,
+      user: userAnswer,
+      answer: rightAnswer
+    });
+  }
+
+  $("currentScore").textContent = `答對 ${correct} 題`;
+
+  setTimeout(() => {
+    if(current < questions.length - 1){
+      current++;
+      renderQuestion();
+    }else{
+      finishQuiz();
+    }
+  }, 900);
+}
+
+function finishQuiz(){
+  $("progressBar").style.width = "100%";
+  $("resultTotal").textContent = questions.length;
+  $("resultCorrect").textContent = correct;
+  $("resultRate").textContent = `${Math.round(correct / questions.length * 100)}%`;
+  updateWrongCount();
+  showOnly(resultView);
+}
+
+function saveWrong(item){
+  const list = getWrong();
+  const existing = list.find(x => x.key === item.key);
+
+  if(existing){
+    existing.user = item.user;
+    existing.answer = item.answer;
+    existing.times = (existing.times || 1) + 1;
+  }else{
+    list.push({...item,times:1});
+  }
+
+  localStorage.setItem("verbWrongBook", JSON.stringify(list));
+  updateWrongCount();
+}
+
+function getWrong(){
+  try{
+    return JSON.parse(localStorage.getItem("verbWrongBook") || "[]");
+  }catch{
+    return [];
+  }
+}
+
+function updateWrongCount(){
+  const n = getWrong().length;
+  $("wrongCount").textContent = n ? `(${n})` : "";
+}
+
+function renderWrong(){
+  const list = getWrong();
+  const box = $("wrongContent");
+
+  $("practiceWrongBtn").disabled = list.length === 0;
+  $("clearWrongBtn").disabled = list.length === 0;
+
+  if(!list.length){
+    box.innerHTML = `<div class="empty">目前沒有錯題 🎉</div>`;
+    return;
+  }
+
+  box.innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>動詞</th>
+            <th>變化</th>
+            <th>你的答案</th>
+            <th>正確答案</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${list.map(item => `
+            <tr>
+              <td>
+                <strong>${escapeHtml(item.verb)}</strong><br>
+                <span class="badge">${escapeHtml(item.type)}</span>
+              </td>
+              <td>${escapeHtml(FORM_LABELS[item.target] || item.target)}</td>
+              <td>${escapeHtml(item.user)}</td>
+              <td><strong>${escapeHtml(item.answer)}</strong></td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function showWrong(){
+  renderWrong();
+  showOnly(wrongView);
+}
+
+function practiceWrong(){
+  const list = getWrong();
+  const converted = [];
+
+  for(const item of list){
+    const verb = VERBS.find(v => v.v === item.verb);
+    if(verb){
+      converted.push({
+        verb,
+        start:item.start,
+        target:item.target
+      });
+    }
+  }
+
+  if(!converted.length){
+    alert("目前錯題本裡沒有可重新練習的題目。");
+    return;
+  }
+
+  startQuiz(converted);
+}
+
+function clearWrong(){
+  if(!confirm("確定要清空全部錯題嗎？")) return;
+  localStorage.removeItem("verbWrongBook");
+  renderWrong();
+  updateWrongCount();
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+document.querySelectorAll(".level-toggle").forEach(button => {
+  button.addEventListener("click", () => {
+    const level = button.dataset.level;
+    const forms = FORM_GROUPS[level];
+
+    const boxes = forms.map(form =>
+      document.querySelector(`input[name="targetForm"][value="${form}"]`)
+    );
+
+    const allChecked = boxes.every(box => box && box.checked);
+    boxes.forEach(box => {
+      if(box) box.checked = !allChecked;
+    });
+
+    button.textContent = allChecked ? "全選" : "取消全選";
+  });
+});
+
+$("startBtn").addEventListener("click", () => startQuiz());
+$("checkBtn").addEventListener("click", checkAnswer);
+
+$("answerInput").addEventListener("keydown", event => {
+  if(event.key === "Enter") checkAnswer();
+});
+
+$("quitBtn").addEventListener("click", () => {
+  showOnly(setupView);
+});
+
+$("wrongBookBtn").addEventListener("click", showWrong);
+$("resultWrongBtn").addEventListener("click", showWrong);
+$("wrongBackBtn").addEventListener("click", () => showOnly(setupView));
+$("resultBackBtn").addEventListener("click", () => showOnly(setupView));
+
+$("againBtn").addEventListener("click", () => {
+  const selected = document.querySelector('input[name="startForm"][value="' + lastStart + '"]');
+  if(selected) selected.checked = true;
+
+  document.querySelectorAll('input[name="targetForm"]').forEach(el => {
+    el.checked = lastForms.includes(el.value);
+  });
+
+  startQuiz();
+});
+
+$("practiceWrongBtn").addEventListener("click", practiceWrong);
+$("clearWrongBtn").addEventListener("click", clearWrong);
+
+renderFormOptions();
+updateWrongCount();
+</script>
+</body>
+</html>
